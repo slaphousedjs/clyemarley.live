@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Next Wave: Live from the Vibe Ship | RSVP + Last Episode</title>
+<meta name="description" content="RSVP for The Next Wave, a live listening party for tastemakers. Broadcasting the freshest, most forward sounds in the galaxy.">
+<meta property="og:title" content="The Next Wave: Live from the Vibe Ship">
+<meta property="og:description" content="Broadcasting the freshest, most forward sounds in the galaxy. Board the ship.">
+<meta name="theme-color" content="#0a0c10">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c10; --panel:#0f1218; --amber:#ffb347; --amber-dim:rgba(255,179,71,.5);
+  --amber-faint:rgba(255,179,71,.12); --text:#ffe2b8; --muted:#b9a58a; --white:#fff;
+  --cyan:#7cf7ff; --pink:#ff4fd8;
+  --display:'Michroma',sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:var(--amber)}a:hover{color:var(--white)}
+::selection{background:var(--amber);color:var(--bg)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* background */
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 2px,transparent 2px 5px)}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.65) 100%)}
+main,header,footer{position:relative;z-index:2}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px clamp(18px,4vw,48px);background:rgba(10,12,16,.82);backdrop-filter:blur(8px);border-bottom:1px solid var(--amber-dim);font-size:13px;letter-spacing:3px;text-transform:uppercase}
+.bar .sig{color:var(--amber);display:flex;align-items:center;gap:10px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:pulse 1.6s ease-in-out infinite}
+
+/* layout */
+.wrap{width:min(1100px,100% - 36px);margin-inline:auto}
+section{padding:clamp(70px,10vw,120px) 0}
+.label{font-size:13px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin:0 0 14px}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(30px,5vw,52px);line-height:1.1;color:var(--white);margin:0 0 22px}
+
+/* hero */
+.hero{min-height:calc(100vh - 56px);display:flex;align-items:center;padding:60px 0}
+.boot{font-size:clamp(13px,1.6vw,16px);color:var(--amber);letter-spacing:2px;min-height:6.5em;margin:0 0 26px;white-space:pre-line}
+.boot .cur{display:inline-block;width:.6em;height:1em;background:var(--amber);vertical-align:-2px;margin-left:4px;animation:blink 1s steps(1) infinite}
+.title{font-family:var(--display);font-weight:400;font-size:min(11vw,138px);line-height:.98;letter-spacing:-1px;color:var(--white);margin:0;position:relative}
+.title .w{display:inline-block;opacity:0;transform:translateY(30px);filter:blur(10px);transition:all .45s cubic-bezier(.2,.7,.2,1)}
+.title.on .w{opacity:1;transform:none;filter:none}
+.title.glitch{animation:glitch .35s steps(2) 1}
+.sub{font-family:var(--display);font-size:clamp(16px,2.6vw,30px);letter-spacing:.3em;color:var(--amber);margin:22px 0 14px}
+.tag{font-size:clamp(16px,2vw,21px);max-width:640px;margin:0 0 36px}
+.fade{opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
+.fade.on{opacity:1;transform:none}
+
+.cta{position:relative;display:inline-flex;align-items:center;gap:14px;padding:20px 30px;min-height:56px;background:var(--amber);color:var(--bg);font-family:var(--display);font-size:clamp(14px,1.6vw,18px);letter-spacing:3px;text-decoration:none;border:none;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;box-shadow:0 0 0 rgba(255,179,71,0)}
+.cta:hover{color:var(--bg);box-shadow:0 0 40px rgba(255,179,71,.55)}
+.cta svg{width:20px;height:20px}
+.cta.ghost{background:transparent;color:var(--amber);border:2px solid var(--amber)}
+.cta.ghost:hover{color:var(--white);border-color:var(--white)}
+.cta[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+
+/* countdown */
+.count{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;margin-top:44px;background:var(--amber-dim);border:2px solid var(--amber-dim);width:100%;max-width:520px}
+.count div{background:rgba(10,12,16,.9);padding:14px 6px;min-width:0;text-align:center}
+.count b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(22px,6.5vw,38px);line-height:1.1;color:var(--white)}
+.count span{font-size:clamp(9px,2.4vw,11px);letter-spacing:2px;color:var(--muted)}
+.count.pending{display:block;width:max-content;max-width:100%;padding:16px 22px;background:rgba(10,12,16,.9);color:var(--amber);letter-spacing:3px;font-size:14px}
+
+/* briefing cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:34px}
+.card{position:relative;padding:30px 26px;background:rgba(15,18,24,.85);border:1px solid var(--amber-dim);transform-style:preserve-3d;transition:transform .25s ease,border-color .25s ease}
+.card:hover{border-color:var(--amber)}
+.card .big{font-family:var(--display);font-size:clamp(34px,4vw,46px);color:var(--white);display:block;margin-bottom:10px}
+.card p{margin:0}
+.card::before,.card::after{content:"";position:absolute;width:18px;height:18px;border-color:var(--amber);border-style:solid}
+.card::before{top:-2px;left:-2px;border-width:2px 0 0 2px}
+.card::after{bottom:-2px;right:-2px;border-width:0 2px 2px 0}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.on{opacity:1;transform:none}
+
+/* flight info */
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;background:var(--amber-dim);border:2px solid var(--amber-dim);margin-top:30px}
+.info div{background:rgba(10,12,16,.92);padding:24px}
+.info span{display:block;font-size:12px;letter-spacing:3px;color:var(--muted);margin-bottom:6px}
+.info b{color:var(--white);font-weight:600;font-size:19px}
+
+/* form */
+.console{background:rgba(15,18,24,.9);border:2px solid var(--amber-dim);padding:clamp(18px,4vw,44px);margin-top:30px;position:relative}
+.steps{display:flex;gap:8px;margin-bottom:28px}
+.steps i{flex:1;height:4px;background:var(--amber-faint);transition:background .4s}
+.steps i.on{background:var(--amber)}
+fieldset{border:none;margin:0 0 28px;padding:0}
+legend{font-size:13px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-bottom:14px;padding:0}
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:12px}
+.role{position:relative}
+.role input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.role label{display:flex;flex-direction:column;gap:4px;min-height:100%;padding:14px 16px;border:1px solid var(--amber-dim);cursor:pointer;transition:all .2s}
+.role label b{font-family:var(--display);font-weight:400;color:var(--white);font-size:15px;letter-spacing:1px}
+.role label span{font-size:14px;color:var(--muted)}
+.role input:checked+label{background:var(--amber-faint);border-color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}
+.role input:focus-visible+label{outline:2px solid var(--cyan);outline-offset:3px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px 18px}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.f label{font-size:13px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.f input,.f textarea{width:100%;min-width:0;background:var(--bg);border:1px solid var(--amber-dim);color:var(--white);font:inherit;font-size:16px;padding:12px 14px;min-height:48px;transition:border-color .2s,box-shadow .2s}
+.f input:focus,.f textarea:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(255,179,71,.2)}
+.f input[aria-invalid="true"]{border-color:#ff6b6b}
+.err{color:#ff8f8f;font-size:14px}
+.err:empty{display:none}
+.artist{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s ease,opacity .5s;opacity:0}
+.artist.open{grid-template-rows:1fr;opacity:1}
+.artist>div{overflow:hidden}
+.artist .note{border-left:3px solid var(--amber);padding:12px 16px;background:var(--amber-faint);margin:0 0 18px;color:var(--white)}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--amber-dim)}
+.stepper button{width:52px;height:52px;background:none;border:none;color:var(--amber);font-size:24px;cursor:pointer}
+.stepper button:hover{background:var(--amber-faint)}
+.stepper output{min-width:70px;text-align:center;font-family:var(--display);font-size:22px;color:var(--white)}
+.hint{font-size:14px;color:var(--muted);margin-left:14px}
+.submit-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:10px}
+.status{font-size:14px;color:var(--amber);letter-spacing:2px}
+
+/* boarding pass */
+.pass-wrap{display:none;perspective:1200px;margin-top:30px}
+.pass-wrap.show{display:block}
+.pass{position:relative;display:grid;grid-template-columns:1fr 240px;background:linear-gradient(135deg,#141822,#0d0f14);border:2px solid var(--amber);transition:transform .15s ease;transform-style:preserve-3d;animation:dock 1s cubic-bezier(.2,.7,.2,1)}
+.pass .main{padding:30px;display:flex;flex-direction:column;gap:18px}
+.pass .stub{border-left:2px dashed var(--amber-dim);padding:30px 24px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;background:var(--amber-faint)}
+.pass h3{font-family:var(--display);font-weight:400;font-size:clamp(26px,4vw,40px);color:var(--white);margin:0;line-height:1.05}
+.pass .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px}
+.pass .row span{display:block;font-size:11px;letter-spacing:3px;color:var(--muted)}
+.pass .row b{color:var(--white);font-weight:600;font-size:17px;word-break:break-word}
+.crew-id{font-family:var(--display);font-size:26px;color:var(--amber);letter-spacing:2px}
+.bars{height:58px;display:flex;gap:2px;align-items:stretch}
+.bars i{background:var(--white);display:block}
+.pass .glare{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.14),transparent 45%)}
+.pass-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px}
+
+
+/* last episode monitor */
+.ep-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:22px}
+.ep-head h2{margin:0}
+.monitor{position:relative;padding:clamp(10px,2vw,18px);background:linear-gradient(160deg,#1a1d24,#0c0e12);border:2px solid var(--amber-dim);box-shadow:0 0 0 1px rgba(255,179,71,.15),0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(255,179,71,.08)}
+.monitor::before,.monitor::after{content:"";position:absolute;width:34px;height:34px;border:0 solid var(--amber);z-index:3}
+.monitor::before{top:-8px;left:-8px;border-width:3px 0 0 3px}
+.monitor::after{bottom:-8px;right:-8px;border-width:0 3px 3px 0}
+.mon-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;letter-spacing:3px;color:var(--amber);padding:2px 4px 12px;text-transform:uppercase}
+.rec{display:inline-flex;align-items:center;gap:8px;color:#ff6b6b}
+.rec i{width:10px;height:10px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 10px #ff4d4d;animation:pulse 1.2s ease-in-out infinite}
+.screen{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden;border:1px solid rgba(255,179,71,.35)}
+.screen iframe,.screen #ytp{position:absolute;inset:0;width:100%;height:100%;border:0}
+.screen .crt{position:absolute;inset:0;pointer-events:none;z-index:2;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 4px),radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.5) 100%)}
+.screen .boot-ov{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#05060a;color:var(--amber);letter-spacing:4px;font-size:clamp(12px,2vw,16px);transition:opacity .6s ease;pointer-events:none}
+.screen .boot-ov b{font-family:var(--display);font-weight:400;color:var(--white);font-size:clamp(18px,4vw,34px);letter-spacing:2px}
+.screen.live .boot-ov{opacity:0}
+.hud-tl,.hud-br{position:absolute;z-index:2;pointer-events:none;font-size:11px;letter-spacing:2px;color:rgba(255,226,184,.85);text-shadow:0 0 6px #000}
+.hud-tl{top:10px;left:12px}
+.hud-br{bottom:10px;right:12px}
+.mon-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:14px 4px 2px}
+.mon-foot .cta{padding:14px 20px;min-height:48px;font-size:13px}
+.meter{display:flex;gap:3px;align-items:flex-end;height:22px}
+.meter span{width:4px;background:var(--amber);animation:eq 1s ease-in-out infinite;transform-origin:bottom}
+.meter span:nth-child(2){animation-delay:.15s}.meter span:nth-child(3){animation-delay:.3s}.meter span:nth-child(4){animation-delay:.45s}.meter span:nth-child(5){animation-delay:.6s}
+.meter.off span{animation:none;height:4px!important;opacity:.4}
+@keyframes eq{0%,100%{height:5px}50%{height:22px}}
+
+footer{padding:50px 0 70px;border-top:1px solid var(--amber-dim);font-size:14px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+
+#warp{position:fixed;inset:0;z-index:50;pointer-events:none}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,120px);z-index:60;background:var(--amber);color:var(--bg);padding:14px 22px;font-weight:600;letter-spacing:1px;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.toast.on{transform:translate(-50%,0)}
+
+@keyframes pulse{50%{opacity:.35}}
+@keyframes blink{50%{opacity:0}}
+@keyframes glitch{0%{text-shadow:-6px 0 var(--cyan),6px 0 var(--pink);transform:translateX(3px)}50%{text-shadow:5px 0 var(--cyan),-5px 0 var(--pink);transform:translateX(-3px)}100%{text-shadow:none;transform:none}}
+@keyframes dock{from{opacity:0;transform:rotateX(35deg) translateY(60px) scale(.9)}to{opacity:1;transform:none}}
+
+@media (max-width:720px){
+  .pass{grid-template-columns:1fr}
+  .pass .stub{border-left:none;border-top:2px dashed var(--amber-dim)}
+  .bar .hide-sm,.mon-bar .hide-sm{display:none}
+  .sub{letter-spacing:.14em}
+  .f label{letter-spacing:1px}
+  legend{letter-spacing:2px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .title .w,.fade,.reveal{opacity:1;transform:none;filter:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="scan" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<canvas id="warp" aria-hidden="true"></canvas>
+
+<header class="bar">
+  <span class="sig"><span class="dot" aria-hidden="true"></span>Vibe Ship <span class="hide-sm">· Signal 100%</span></span>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="t">
+    <div class="wrap">
+      <p class="boot" id="boot" aria-hidden="true"></p>
+      <h1 class="title" id="t"><span class="w">THE&nbsp;NEXT</span><br><span class="w">WAVE</span></h1>
+      <p class="sub fade" data-d="1">LIVE FROM THE VIBE SHIP</p>
+      <p class="tag fade" data-d="2">Broadcasting the freshest, most forward sounds in the galaxy. A live listening party for tastemakers in East Atlanta Village.</p>
+      <div class="fade" data-d="3">
+        <a class="cta" href="#board" id="heroCta">BOARD THE SHIP
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="fade" data-d="4"><div class="count pending" id="count" role="timer" aria-live="off">LAUNCH DATE INCOMING</div></div>
+    </div>
+  </section>
+
+
+  <section aria-labelledby="epH">
+    <div class="wrap">
+      <div class="ep-head">
+        <div>
+          <p class="label reveal">&gt; Last episode</p>
+          <h2 id="epH" class="reveal">Replay the last transmission.</h2>
+        </div>
+      </div>
+      <div class="monitor reveal">
+        <div class="mon-bar">
+          <span class="rec"><i aria-hidden="true"></i>Replay</span>
+          <span class="hide-sm">Vibe Ship Archive</span>
+          <span id="tc" aria-hidden="true">00:00:00</span>
+        </div>
+        <div class="screen" id="screen">
+          <div id="ytp"></div>
+          <div class="crt" aria-hidden="true"></div>
+          <span class="hud-tl" aria-hidden="true">CH 01 · THE NEXT WAVE</span>
+          <span class="hud-br" aria-hidden="true">SIGNAL ARCHIVED</span>
+          <div class="boot-ov" aria-hidden="true"><span>&gt; TUNING IN</span><b>LAST EPISODE</b></div>
+        </div>
+        <div class="mon-foot">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="meter off" id="meter" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+            <button class="cta" type="button" id="unmute" aria-pressed="false">TURN SOUND ON</button>
+          </div>
+          <a class="cta ghost" href="https://youtu.be/13B_Q1mKT8o" target="_blank" rel="noopener">WATCH ON YOUTUBE</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="brief">
+    <div class="wrap">
+      <p class="label reveal">&gt; Mission briefing</p>
+      <h2 id="brief" class="reveal">Hear it here first.</h2>
+      <p class="reveal" style="max-width:720px">The Next Wave is a night built for people who find the sound before everyone else. Artists take the stage for short sets, Vibe Dealer broadcasts between them, and every performance gets captured.</p>
+      <div class="cards">
+        <article class="card reveal tilt"><span class="big">10 MIN</span><p>Artist sets. Short, sharp, and all killer. Grand opening slots are free for artists.</p></article>
+        <article class="card reveal tilt"><span class="big">PRO</span><p>Pro audio recording of every set, so artists leave with something they can use.</p></article>
+        <article class="card reveal tilt"><span class="big">MULTI</span><p>Multi-angle video capture of the performances and the room.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="flight">
+    <div class="wrap">
+      <p class="label reveal">&gt; Flight info</p>
+      <h2 id="flight" class="reveal">Coordinates</h2>
+      <div class="info reveal">
+        <div><span>GRAND OPENING</span><b id="dateLabel">Date TBA</b></div>
+        <div><span>WINDOW</span><b>8 PM to midnight</b></div>
+        <div><span>DOCKING BAY</span><b>The Pub @ EAV<br><a href="https://www.google.com/maps/search/?api=1&amp;query=469+Flat+Shoals+Ave+SE+Atlanta+GA+30316" target="_blank" rel="noopener">469 Flat Shoals Ave SE</a></b></div>
+        <div><span>CAPTAIN</span><b>Clyde Marley<br><a href="https://instagram.com/atlantavibesdealer" target="_blank" rel="noopener">@atlantavibesdealer</a></b></div>
+      </div>
+      <p class="reveal" style="margin:22px 0 0">Soft opening Thursday, Nov 19. Grand opening Thursday, Dec 3. After that, we broadcast every 1st and 3rd Thursday.</p>
+    </div>
+  </section>
+
+  <section id="board" aria-labelledby="boardH">
+    <div class="wrap">
+      <p class="label reveal">&gt; Boarding request</p>
+      <h2 id="boardH" class="reveal">Claim your seat on the ship.</h2>
+
+      <form class="console reveal" id="form" novalidate>
+        <div class="steps" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+
+        <fieldset>
+          <legend>01 · Who's boarding?</legend>
+          <div class="roles">
+            <div class="role"><input type="radio" name="role" id="r1" value="Guest" checked><label for="r1"><b>CREW</b><span>Coming to listen and vibe</span></label></div>
+            <div class="role"><input type="radio" name="role" id="r2" value="Artist"><label for="r2"><b>ARTIST</b><span>Want a 10-minute set</span></label></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>02 · Your signal</legend>
+          <div class="fields">
+            <div class="f"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required><span class="err" id="nameErr" aria-live="polite"></span></div>
+            <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required><span class="err" id="emailErr" aria-live="polite"></span></div>
+            <div class="f"><label for="ig">Instagram (optional)</label><input id="ig" name="instagram" placeholder="@yourhandle" autocomplete="off"></div>
+          </div>
+        </fieldset>
+
+        <div class="artist" id="artistBox">
+          <div>
+            <p class="note">Grand opening sets are free. Every set is recorded with pro audio and multi-angle video.</p>
+            <div class="fields" style="margin-bottom:28px">
+              <div class="f"><label for="aname">Artist name</label><input id="aname" name="artist_name"></div>
+              <div class="f"><label for="link">Link to your music</label><input id="link" name="music_link" type="url" placeholder="https://"></div>
+            </div>
+          </div>
+        </div>
+
+        <fieldset>
+          <legend>03 · Crew size</legend>
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
+            <div class="stepper">
+              <button type="button" id="minus" aria-label="Fewer people">−</button>
+              <output id="crew" aria-live="polite">1</output>
+              <button type="button" id="plus" aria-label="More people">+</button>
+            </div>
+            <span class="hint">Including you. Up to 4 per request.</span>
+          </div>
+        </fieldset>
+
+        <div class="submit-row">
+          <button class="cta" type="submit" id="send">TRANSMIT REQUEST
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12l16-8-6 16-2-7-8-1z"/></svg>
+          </button>
+          <span class="status" id="status" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <div class="pass-wrap" id="passWrap" aria-live="polite">
+        <div class="pass" id="pass">
+          <div class="main">
+            <span class="label" style="margin:0">BOARDING PASS · THE NEXT WAVE</span>
+            <h3 id="pName">Name</h3>
+            <div class="row">
+              <div><span>CLASS</span><b id="pRole">Crew</b></div>
+              <div><span>CREW</span><b id="pCrew">1</b></div>
+              <div><span>LAUNCH</span><b id="pDate">Date TBA</b></div>
+              <div><span>WINDOW</span><b>8 PM to midnight</b></div>
+            </div>
+            <div><span class="label" style="margin:0 0 4px;display:block">DOCKING BAY</span><b style="color:#fff">The Pub @ EAV · 469 Flat Shoals Ave SE</b></div>
+          </div>
+          <div class="stub">
+            <div><span class="label" style="margin:0">CREW ID</span><div class="crew-id" id="pId">NW-0000</div></div>
+            <div class="bars" id="bars" aria-hidden="true"></div>
+            <span style="font-size:13px;color:var(--muted)">Show this at the door.</span>
+          </div>
+          <div class="glare" aria-hidden="true"></div>
+        </div>
+        <div class="pass-actions">
+          <button class="cta" type="button" id="dl">SAVE PASS</button>
+          <button class="cta ghost" type="button" id="cal">ADD TO CALENDAR</button>
+          <button class="cta ghost" type="button" id="share">SHARE THE SIGNAL</button>
+          <button class="cta ghost" type="button" id="again">NEW REQUEST</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Slap House Media presents · Curated by Vibe Dealer</span>
+    <span><a href="mailto:slaphousedjs@gmail.com">slaphousedjs@gmail.com</a> · <a href="https://instagram.com/atlantavibesdealer" target="_blank" rel="noopener">@atlantavibesdealer</a></span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== CONFIG: edit these before going live ===== */
+const CONFIG = {
+  // Event start in ISO format with Atlanta offset, e.g. '2026-12-05T20:00:00-05:00'. Leave null while TBA.
+  eventStart: '2026-12-03T20:00:00-05:00',
+  durationHours: 4,
+  // Where RSVPs get sent. Paste a Formspree (or similar) endpoint, e.g. 'https://formspree.io/f/xxxxxxx'.
+  // Left blank, the form opens a pre-filled email to contactEmail instead.
+  formEndpoint: 'https://formspree.io/f/xrpqroyz',
+  contactEmail: 'slaphousedjs@gmail.com',
+  pageUrl: 'https://clydemarley.live/nextwave'
+};
+/* ================================================= */
+
+const $ = (s) => document.querySelector(s);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store = {
+  get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} }
+};
+const start = CONFIG.eventStart ? new Date(CONFIG.eventStart) : null;
+const dateText = start
+  ? start.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',timeZone:'America/New_York'})
+  : 'Date TBA';
+$('#dateLabel').textContent = dateText;
+$('#pDate').textContent = dateText;
+
+/* ---- starfield + radar canvas ---- */
+const sky = $('#sky'), ctx = sky.getContext('2d');
+let W, H, stars = [], mx = .5, my = .5, sweepPrev = 0;
+const blips = Array.from({length:6}, () => ({a:Math.random()*Math.PI*2, r:.25+Math.random()*.7, t:-9}));
+function size(){
+  const dpr = Math.min(devicePixelRatio||1, 2);
+  W = innerWidth; H = innerHeight;
+  sky.width = W*dpr; sky.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  stars = Array.from({length: Math.round(W*H/5000)}, () => ({x:Math.random()*W, y:Math.random()*H, z:Math.random()*.9+.1}));
+}
+size(); addEventListener('resize', size);
+addEventListener('pointermove', (e) => { mx = e.clientX/W; my = e.clientY/H; });
+function draw(t){
+  ctx.clearRect(0,0,W,H);
+  const px = (mx-.5)*30, py = (my-.5)*30;
+  for(const s of stars){
+    const tw = .5 + .5*Math.sin(t/700 + s.x);
+    ctx.fillStyle = `rgba(255,236,210,${.25 + .6*s.z*tw})`;
+    ctx.fillRect(s.x + px*s.z, s.y + py*s.z - (scrollY*.05*s.z % H), s.z*1.8, s.z*1.8);
+  }
+  const R = Math.min(W,H)*.42, cx = W*.72 + px, cy = H*.5 + py - scrollY*.15;
+  ctx.strokeStyle = 'rgba(255,179,71,.18)'; ctx.lineWidth = 1;
+  for(let i=1;i<=4;i++){ ctx.beginPath(); ctx.arc(cx,cy,R*i/4,0,Math.PI*2); ctx.stroke(); }
+  ctx.beginPath(); ctx.moveTo(cx-R,cy); ctx.lineTo(cx+R,cy); ctx.moveTo(cx,cy-R); ctx.lineTo(cx,cy+R); ctx.stroke();
+  const ang = reduce ? 1 : (t/4000)*Math.PI*2 % (Math.PI*2);
+  if(ctx.createConicGradient){
+    const g = ctx.createConicGradient(ang-Math.PI/2.4, cx, cy);
+    g.addColorStop(0,'rgba(255,179,71,0)'); g.addColorStop(.115,'rgba(255,179,71,.32)'); g.addColorStop(.116,'rgba(255,179,71,0)'); g.addColorStop(1,'rgba(255,179,71,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fill();
+  }
+  for(const b of blips){
+    const d = ((ang - b.a) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+    const dp = ((sweepPrev - b.a) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+    if(d < dp){ b.t = t; }
+    const age = (t - b.t)/1600;
+    if(age >= 0 && age < 1){
+      ctx.fillStyle = `rgba(255,179,71,${1-age})`;
+      ctx.shadowColor = '#ffb347'; ctx.shadowBlur = 14;
+      ctx.beginPath(); ctx.arc(cx+Math.cos(b.a)*R*b.r, cy+Math.sin(b.a)*R*b.r, 5, 0, Math.PI*2); ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+  sweepPrev = ang;
+  if(!reduce) requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+
+/* ---- boot sequence ---- */
+const bootLines = ['> ESTABLISHING UPLINK...', '> INCOMING TRANSMISSION', '> ORIGIN: VIBE SHIP  |  DEST: EAST ATLANTA VILLAGE'];
+async function boot(){
+  const el = $('#boot');
+  if(reduce){ el.textContent = bootLines.join('\n'); return showHero(); }
+  let out = '';
+  for(const line of bootLines){
+    for(const ch of line){ out += ch; el.innerHTML = out.replace(/</g,'&lt;') + '<span class="cur"></span>'; await new Promise(r => setTimeout(r, 11)); }
+    out += '\n'; await new Promise(r => setTimeout(r, 90));
+  }
+  showHero();
+}
+function showHero(){
+  const t = $('#t'); t.classList.add('on');
+  setTimeout(() => t.classList.add('glitch'), 450);
+  document.querySelectorAll('.fade').forEach(el => setTimeout(() => el.classList.add('on'), 300 + el.dataset.d*140));
+}
+boot();
+setInterval(() => { if(reduce) return; const t=$('#t'); t.classList.remove('glitch'); void t.offsetWidth; t.classList.add('glitch'); }, 7000);
+
+/* ---- countdown ---- */
+function tick(){
+  const c = $('#count');
+  if(!start){ return; }
+  const ms = start - Date.now();
+  if(ms <= 0){ c.className='count pending'; c.textContent = ms > -CONFIG.durationHours*3600e3 ? 'NOW BROADCASTING' : 'TRANSMISSION COMPLETE'; return; }
+  const d = Math.floor(ms/864e5), h = Math.floor(ms/36e5)%24, m = Math.floor(ms/6e4)%60, s = Math.floor(ms/1e3)%60;
+  c.className = 'count';
+  c.innerHTML = [[d,'DAYS'],[h,'HRS'],[m,'MIN'],[s,'SEC']].map(([v,l]) => `<div><b>${String(v).padStart(2,'0')}</b><span>${l}</span></div>`).join('');
+}
+tick(); setInterval(tick, 1000);
+
+/* ---- scroll reveals ---- */
+const io = new IntersectionObserver((es) => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } }), {threshold:.15});
+document.querySelectorAll('.reveal').forEach((el,i) => { el.style.transitionDelay = (i%3)*90+'ms'; io.observe(el); });
+
+/* ---- tilt cards + magnetic CTA ---- */
+if(!reduce && matchMedia('(hover:hover)').matches){
+  document.querySelectorAll('.tilt').forEach(c => {
+    c.addEventListener('pointermove', e => { const r=c.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; c.style.transform=`rotateY(${x*10}deg) rotateX(${-y*10}deg) translateZ(0)`; });
+    c.addEventListener('pointerleave', () => c.style.transform='');
+  });
+  document.querySelectorAll('.cta').forEach(b => {
+    b.addEventListener('pointermove', e => { const r=b.getBoundingClientRect(); b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.15}px,${(e.clientY-r.top-r.height/2)*.25}px)`; });
+    b.addEventListener('pointerleave', () => b.style.transform='');
+  });
+  const pass = $('#pass');
+  pass.addEventListener('pointermove', e => { const r=pass.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height; pass.style.transform=`rotateY(${(x-.5)*12}deg) rotateX(${-(y-.5)*12}deg)`; pass.style.setProperty('--gx',x*100+'%'); pass.style.setProperty('--gy',y*100+'%'); });
+  pass.addEventListener('pointerleave', () => pass.style.transform='');
+}
+
+/* ---- form logic ---- */
+const form = $('#form'), steps = form.querySelectorAll('.steps i');
+let crew = 1;
+function setCrew(n){ crew = Math.max(1, Math.min(4, n)); $('#crew').textContent = crew; }
+$('#minus').onclick = () => setCrew(crew-1);
+$('#plus').onclick = () => setCrew(crew+1);
+form.querySelectorAll('input[name=role]').forEach(r => r.addEventListener('change', () => {
+  $('#artistBox').classList.toggle('open', r.value === 'Artist' && r.checked);
+  steps[0].classList.add('on');
+}));
+['name','email'].forEach(id => $('#'+id).addEventListener('input', () => {
+  steps[1].classList.toggle('on', $('#name').value.trim() && $('#email').validity.valid);
+  $('#'+id).removeAttribute('aria-invalid'); $('#'+id+'Err').textContent='';
+}));
+
+function validate(){
+  let ok = true;
+  const n = $('#name'), e = $('#email');
+  if(!n.value.trim()){ n.setAttribute('aria-invalid','true'); $('#nameErr').textContent='We need a name for the manifest.'; ok=false; }
+  if(!e.value.trim() || !e.validity.valid){ e.setAttribute('aria-invalid','true'); $('#emailErr').textContent='Enter a working email so we can reach you.'; ok=false; }
+  if(!ok) (n.getAttribute('aria-invalid') ? n : e).focus();
+  return ok;
+}
+function crewId(seed){
+  let h = 0; for(const c of seed) h = (h*31 + c.charCodeAt(0)) >>> 0;
+  return 'NW-' + (h % 9000 + 1000);
+}
+function drawBars(id){
+  const el = $('#bars'); el.innerHTML = '';
+  let h = 7; for(const c of id) h = (h*17 + c.charCodeAt(0)) >>> 0;
+  for(let i=0;i<34;i++){ h = (h*1103515245 + 12345) >>> 0; const w = 1 + (h>>>16)%4; const b=document.createElement('i'); b.style.width=w+'px'; b.style.opacity = (h&1)? 1 : .25; el.appendChild(b); }
+}
+function showPass(d){
+  $('#pName').textContent = d.name;
+  $('#pRole').textContent = d.role === 'Guest' ? 'Crew' : d.role;
+  $('#pCrew').textContent = d.crew;
+  $('#pId').textContent = d.id;
+  drawBars(d.id);
+  form.style.display = 'none';
+  $('#passWrap').classList.add('show');
+  $('#cal').disabled = !start;
+  if(!start) $('#cal').title = 'Available once the launch date is set';
+  $('#passWrap').scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'center'});
+}
+
+form.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  if(!validate()) return;
+  steps[2].classList.add('on');
+  const fd = new FormData(form);
+  const data = {
+    role: fd.get('role'), name: fd.get('name').trim(), email: fd.get('email').trim(),
+    instagram: fd.get('instagram').trim(), artist_name: fd.get('artist_name').trim(),
+    music_link: fd.get('music_link').trim(), crew, event: 'The Next Wave: Live from the Vibe Ship'
+  };
+  data.id = crewId(data.email + data.name);
+  const btn = $('#send'), st = $('#status');
+  btn.disabled = true; st.textContent = 'TRANSMITTING...';
+  try{
+    if(CONFIG.formEndpoint){
+      const r = await fetch(CONFIG.formEndpoint, {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body: JSON.stringify(data)});
+      if(!r.ok) throw new Error('send failed');
+    } else {
+      const body = Object.entries(data).filter(([,v]) => v !== '').map(([k,v]) => `${k}: ${v}`).join('\n');
+      location.href = `mailto:${CONFIG.contactEmail}?subject=${encodeURIComponent('Next Wave RSVP: ' + data.name)}&body=${encodeURIComponent(body)}`;
+    }
+    store.set('nextwave-rsvp', data);
+    st.textContent = '';
+    warp();
+    showPass(data);
+    toast('Request received. Welcome aboard.');
+  } catch(err){
+    st.textContent = 'SIGNAL LOST. Try again, or DM @atlantavibesdealer.';
+    btn.disabled = false;
+  }
+});
+
+/* restore a previous RSVP */
+const saved = store.get('nextwave-rsvp');
+if(saved && saved.name){ showPass(saved); window.scrollTo(0,0); }
+
+$('#again').onclick = () => {
+  store.del('nextwave-rsvp');
+  $('#passWrap').classList.remove('show'); form.style.display = ''; form.reset(); setCrew(1);
+  $('#send').disabled = false; $('#artistBox').classList.remove('open');
+  steps.forEach((s,i) => s.classList.toggle('on', i===0));
+  $('#name').focus();
+};
+
+/* ---- warp-speed burst ---- */
+function warp(){
+  if(reduce) return;
+  const c = $('#warp'), x = c.getContext('2d');
+  c.width = innerWidth; c.height = innerHeight;
+  const cx = c.width/2, cy = c.height/2;
+  const streaks = Array.from({length:180}, () => ({a:Math.random()*Math.PI*2, r:Math.random()*40, v:6+Math.random()*18, hue: Math.random()<.2 ? '#7cf7ff' : (Math.random()<.2 ? '#ff4fd8' : '#ffb347')}));
+  const t0 = performance.now();
+  (function frame(t){
+    const k = (t-t0)/1200;
+    x.clearRect(0,0,c.width,c.height);
+    for(const s of streaks){
+      const r1 = s.r + s.v*k*60, r2 = r1 + s.v*k*14;
+      x.strokeStyle = s.hue; x.globalAlpha = Math.max(0, 1-k); x.lineWidth = 2;
+      x.beginPath(); x.moveTo(cx+Math.cos(s.a)*r1, cy+Math.sin(s.a)*r1); x.lineTo(cx+Math.cos(s.a)*r2, cy+Math.sin(s.a)*r2); x.stroke();
+    }
+    if(k < 1) requestAnimationFrame(frame); else x.clearRect(0,0,c.width,c.height);
+  })(t0);
+}
+
+/* ---- toast ---- */
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 3200); }
+
+/* ---- save pass as PNG ---- */
+$('#dl').onclick = async () => {
+  await document.fonts.ready;
+  const d = store.get('nextwave-rsvp') || {name:$('#pName').textContent, role:$('#pRole').textContent, crew:$('#pCrew').textContent, id:$('#pId').textContent};
+  const c = document.createElement('canvas'); c.width = 1080; c.height = 1350;
+  const x = c.getContext('2d');
+  x.fillStyle = '#0a0c10'; x.fillRect(0,0,1080,1350);
+  x.strokeStyle = 'rgba(255,179,71,.25)';
+  for(let i=1;i<=4;i++){ x.beginPath(); x.arc(760,420,i*80,0,Math.PI*2); x.stroke(); }
+  x.strokeStyle = '#ffb347'; x.lineWidth = 4; x.strokeRect(70,70,940,1210);
+  x.fillStyle = '#ffb347'; x.font = '24px "IBM Plex Mono"'; x.fillText('> BOARDING PASS', 120, 160);
+  x.fillStyle = '#fff'; x.font = '96px Michroma'; x.fillText('THE NEXT', 120, 320); x.fillText('WAVE', 120, 430);
+  x.fillStyle = '#ffb347'; x.font = '30px Michroma'; x.fillText('LIVE FROM THE VIBE SHIP', 120, 500);
+  const rows = [['PASSENGER', d.name], ['CLASS', d.role === 'Guest' ? 'Crew' : d.role], ['CREW', String(d.crew)], ['LAUNCH', dateText], ['WINDOW', '8 PM to midnight'], ['DOCKING BAY', 'The Pub @ EAV, 469 Flat Shoals Ave SE']];
+  let y = 610;
+  for(const [k,v] of rows){ x.fillStyle='#b9a58a'; x.font='20px "IBM Plex Mono"'; x.fillText(k,120,y); x.fillStyle='#fff'; x.font='600 34px "IBM Plex Mono"'; x.fillText(String(v).slice(0,40),120,y+44); y += 96; }
+  x.setLineDash([12,10]); x.strokeStyle='rgba(255,179,71,.6)'; x.beginPath(); x.moveTo(110,1180); x.lineTo(970,1180); x.stroke(); x.setLineDash([]);
+  x.fillStyle = '#ffb347'; x.font = '40px Michroma'; x.fillText(d.id, 120, 1240);
+  x.fillStyle = '#b9a58a'; x.font = '22px "IBM Plex Mono"'; x.fillText('@atlantavibesdealer', 700, 1236);
+  const a = document.createElement('a'); a.download = `next-wave-pass-${d.id}.png`; a.href = c.toDataURL('image/png'); a.click();
+  toast('Pass saved.');
+};
+
+/* ---- add to calendar (.ics) ---- */
+$('#cal').onclick = () => {
+  if(!start) return;
+  const end = new Date(start.getTime() + CONFIG.durationHours*3600e3);
+  const f = (dt) => dt.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Vibe Dealer//Next Wave//EN','BEGIN:VEVENT',
+    'UID:nextwave-'+f(start)+'@clydemarley.live','DTSTAMP:'+f(new Date()),'DTSTART:'+f(start),'DTEND:'+f(end),
+    'SUMMARY:The Next Wave: Live from the Vibe Ship','LOCATION:The Pub @ EAV\\, 469 Flat Shoals Ave SE\\, Atlanta\\, GA 30316',
+    'DESCRIPTION:Broadcasting the freshest\\, most forward sounds in the galaxy. '+CONFIG.pageUrl,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ics],{type:'text/calendar'})); a.download = 'the-next-wave.ics'; a.click();
+};
+
+
+/* ---- last episode player (YouTube IFrame API) ---- */
+const VIDEO_ID = '13B_Q1mKT8o';
+let ytp = null, ytReady = false, inView = false;
+(function(){ const t=document.createElement('script'); t.src='https://www.youtube.com/iframe_api'; document.head.appendChild(t); })();
+window.onYouTubeIframeAPIReady = function(){
+  ytp = new YT.Player('ytp', {
+    videoId: VIDEO_ID, host: 'https://www.youtube-nocookie.com',
+    playerVars: {autoplay:1, mute:1, playsinline:1, rel:0, modestbranding:1, loop:1, playlist:VIDEO_ID},
+    events: {
+      onReady: (e) => { ytReady = true; e.target.mute(); e.target.playVideo(); },
+      onStateChange: (e) => {
+        if(e.data === YT.PlayerState.PLAYING){ $('#screen').classList.add('live'); }
+        $('#meter').classList.toggle('off', !(e.data === YT.PlayerState.PLAYING && !ytp.isMuted()));
+      }
+    }
+  });
+};
+const epObs = new IntersectionObserver((es) => es.forEach(e => {
+  inView = e.isIntersecting;
+  if(!ytReady) return;
+  if(inView) ytp.playVideo(); else if(!ytp.isMuted()) ytp.pauseVideo();
+}), {threshold:.35});
+epObs.observe($('#screen'));
+$('#unmute').onclick = (ev) => {
+  if(!ytReady) return;
+  const b = ev.currentTarget;
+  if(ytp.isMuted()){ ytp.unMute(); ytp.setVolume(90); ytp.playVideo(); b.textContent='MUTE'; b.setAttribute('aria-pressed','true'); $('#meter').classList.remove('off'); }
+  else { ytp.mute(); b.textContent='TURN SOUND ON'; b.setAttribute('aria-pressed','false'); $('#meter').classList.add('off'); }
+};
+setInterval(() => {
+  if(!ytReady || !ytp.getCurrentTime) return;
+  const t = Math.floor(ytp.getCurrentTime()||0);
+  $('#tc').textContent = [Math.floor(t/3600), Math.floor(t/60)%60, t%60].map(n => String(n).padStart(2,'0')).join(':');
+}, 500);
+
+/* ---- share ---- */
+$('#share').onclick = async () => {
+  const payload = {title:'The Next Wave: Live from the Vibe Ship', text:'Broadcasting the freshest, most forward sounds in the galaxy. Board the ship:', url: CONFIG.pageUrl};
+  try{
+    if(navigator.share){ await navigator.share(payload); }
+    else { await navigator.clipboard.writeText(payload.url); toast('Link copied. Send the signal.'); }
+  } catch(e){}
+};
+</script>
+</body>
+</html>
